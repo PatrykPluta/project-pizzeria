@@ -154,14 +154,14 @@
           // check if there is param with a name of paramId in formData and if it includes optionId
           if(formData[paramId] && formData[paramId].includes(optionId)) {
           // check if the option is not default
-           if(!option.default && !option.default !== 'true') {
+           if(!option.default == true) {
             // add option price to price variable
               price = price + option.price;}
           } 
           // check if the option is default
-          else if(!option.default && !option.default !== 'false') {
+          else if(!option.default == false) {
             // reduce price variable
-            price = price - option.price;
+           price = price - option.price;
           }
         }
       }
