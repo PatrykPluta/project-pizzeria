@@ -280,11 +280,7 @@
         event.preventDefault ();
         thisWidget.setValue(thisWidget.value + 1);
       });
-
-      thisCart.addEventListener('click', function(){
-        thisCart.dom.toggleTrigger (thisCart.dom.wrapper = classNames.cart.wrapperActive.classList.toggle('active'));
-        });
-      }
+    }
     
 
     announce() {
@@ -315,6 +311,14 @@
 
       thisCart.dom.wrapper = element;
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.document.querySelector(select.cart.toggleTrigger);
+    }
+
+    initActions(){
+      thisCart = this;
+
+      thisCart.addEventListener('click', function(){
+        thisCart.dom.toggleTrigger (thisCart.dom.wrapper = classNames.cart.wrapperActive.classList.toggle('active'));
+      });
     }
   }
 
