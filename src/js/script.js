@@ -294,9 +294,7 @@
   class Cart{
     constructor(element){
       const thisCart = this;
-
       thisCart.products = [];
-
       thisCart.getElements(element);
       thisCart.initActions();
       console.log('new Cart', thisCart);
@@ -310,19 +308,20 @@
       thisCart.dom = {};
 
       thisCart.dom.wrapper = element;
-      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.document.querySelector(select.cart.toggleTrigger);
+      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
     }
 
     initActions(){
-      thisCart = this;
+      const thisCart = this;
 
-      thisCart.addEventListener('click', function(){
-        thisCart.dom.toggleTrigger (thisCart.dom.wrapper = classNames.cart.wrapperActive.classList.toggle('active'));
+      thisCart.dom.toggleTrigger.addEventListener('click', function(){
+        thisCart.dom.wrapper.classList.toggle('active');
       });
     }
   }
 
   const app = {
+
     initMenu: function(){
       const thisApp = this;
 
@@ -347,6 +346,7 @@
       //console.log('templates:', templates);
       thisApp.initData();
       thisApp.initMenu();
+      thisApp.initCart();
     },
 
     initCart: function(){
@@ -355,6 +355,7 @@
       const cartElem = document.querySelector(select.containerOf.cart);
       thisApp.cart = new Cart(cartElem);
     },
+
   };
 
 
