@@ -1,3 +1,4 @@
+
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
 
 
@@ -212,10 +213,10 @@
           }
         }
       }
+
+      thisProduct.priceSingle = price;
       price *= thisProduct.amountWidget.value;
       thisProduct.price = price;
-      // update calculated price in the HTML
-      thisProduct.priceSingle = thisProduct.priceElem.innerHTML;
       thisProduct.priceElem.innerHTML = price;
     }
 
@@ -231,18 +232,57 @@
     addToCart(){
       const thisProduct = this;
 
-      app.cart.add(thisProduct.prepareCartProduct);
+      app.cart.add(thisProduct.prepareCartProduct());
+
+      /* generate HTML based on template */
+      const generatedHTML = templates.cartProduct(thisProduct.prepareCartProductParams());
+      /* create  element using utils.createElementFromHTML */
+      const generatedDOM = utils.createDOMFromHTML(generatedHTML);
+      /* find menu container */
+      const menuContainer = document.querySelector(thisProduct.productSummary);
+      /* add element to menu */
+      menuContainer.appendChild(generatedDOM);
+    }
+
+    prepareCartProductParams() {
+  
+      const thisProduct = this;
+
+      const params = {};
+    
+      // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
+      const formData = utils.serializeFormToObject(thisProduct.form);
+    
+      // for every category (param)...
+      for(let paramId in thisProduct.data.params) { // paramId = toppings
+        const param = thisProduct.data.params[paramId];
+        params[paramId] = {
+          label: param.label,
+          options: {}
+        };
+    
+        for(let optionId in param.options) {
+          const option = param.options[optionId];
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId); //true || false
+          if(optionSelected) {
+            params[paramId].options[optionId] = option.label;
+          }
+        }
+      }
+
+      return params;
     }
 
     prepareCartProduct(){
       const thisProduct = this;
-
+      console.log(thisProduct);
       const productSummary = {
         id: thisProduct.id,
-        name: thisProduct.name,
-        amount: thisProduct.amount,
+        name: thisProduct.data.name,
+        amount: thisProduct.amountWidget.value,
         priceSingle: thisProduct.priceSingle,
-        price : thisProduct.price
+        price: thisProduct.price,
+        params: thisProduct.prepareCartProductParams()
       };
 
       return productSummary;
@@ -381,11 +421,8 @@
       const cartElem = document.querySelector(select.containerOf.cart);
       thisApp.cart = new Cart(cartElem);
     },
-
   };
 
-
-  
   app.init();
     
 }
