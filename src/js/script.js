@@ -233,15 +233,6 @@
       const thisProduct = this;
 
       app.cart.add(thisProduct.prepareCartProduct());
-
-      /* generate HTML based on template */
-      const generatedHTML = templates.cartProduct(thisProduct.prepareCartProductParams());
-      /* create  element using utils.createElementFromHTML */
-      const generatedDOM = utils.createDOMFromHTML(generatedHTML);
-      /* find menu container */
-      const menuContainer = document.querySelector(thisProduct.productSummary);
-      /* add element to menu */
-      menuContainer.appendChild(generatedDOM);
     }
 
     prepareCartProductParams() {
@@ -380,9 +371,18 @@
     }
 
     add(menuProduct){
-      //const thisCart = this;
+      const thisCart = this;
 
       console.log('adding product', menuProduct);
+
+      /* generate HTML based on template */
+      const generatedHTML = templates.cartProduct(prepareCartProductParams());
+      /* create  element using utils.createElementFromHTML */
+      const generatedDOM = utils.createDOMFromHTML(generatedHTML);
+      /* find menu container */
+      const menuContainer = document.querySelector(productSummary());
+      /* add element to menu */
+      menuContainer.appendChild(generatedDOM);
     }
   }
 
