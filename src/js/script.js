@@ -1,4 +1,5 @@
 
+
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
 
 
@@ -360,7 +361,7 @@
 
       thisCart.dom.wrapper = element;
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
-      //thisCart.dom.productList = thisCart.querySelectorAll(select.cartProduct);
+      thisCart.dom.productList = document.querySelector(select.cart.productList);
     }
 
     initActions(){
@@ -377,13 +378,14 @@
       console.log('adding product', menuProduct);
 
       /* generate HTML based on template */
-      const generatedHTML = templates.cartProduct(thisCart.dom.productList);
+      const generatedHTML = templates.cartProduct(menuProduct);
+
       /* create  element using utils.createElementFromHTML */
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
-      /* find menu container */
-      const menuContainer = document.querySelector(select.containerOf.cart);
+
       /* add element to menu */
-      menuContainer.appendChild(generatedDOM);
+      thisCart.dom.productList.appendChild(generatedDOM);
+
     }
   }
 
