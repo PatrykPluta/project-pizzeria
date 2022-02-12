@@ -267,7 +267,7 @@
 
     prepareCartProduct(){
       const thisProduct = this;
-      console.log(thisProduct);
+      //console.log(thisProduct);
       const productSummary = {
         id: thisProduct.id,
         name: thisProduct.data.name,
@@ -375,7 +375,7 @@
     add(menuProduct){
       const thisCart = this;
 
-      console.log('adding product', menuProduct);
+      //console.log('adding product', menuProduct);
 
       /* generate HTML based on template */
       const generatedHTML = templates.cartProduct(menuProduct);
@@ -386,6 +386,45 @@
       /* add element to menu */
       thisCart.dom.productList.appendChild(generatedDOM);
 
+      thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
+      //console.log('thisCart.products', thisCart.products)
+
+    }
+  }
+
+  class CartProduct {
+    constructor(menuProduct, element){
+      const thisCartProduct = this;
+      thisCartProduct.id = menuProduct.id;
+      thisCartProduct.name = menuProduct.name;
+      thisCartProduct.priceSingle = menuProduct.priceSingle;
+      thisCartProduct.price = menuProduct.price;
+      thisCartProduct.amount = menuProduct.value;
+      thisCartProduct.getElements(element);
+      console.log('thisCartProduct', thisCartProduct);
+      thisCartProduct.AmountWidget();
+    }
+
+    getElements(element){
+      const thisCartProduct = this;
+      thisCartProduct.dom = [];
+      thisCartProduct.dom.wrapper = element;
+      thisCartProduct.dom.amountWidget = element.querySelector(select.cartProduct.amountWidget);
+      thisCartProduct.dom.price = element.querySelector(select.cartProduct.price);
+      thisCartProduct.dom.edit = element.querySelector(select.cartProduct.edit);
+      thisCartProduct.dom.remove = element.querySelector(select.cartProduct.remove);
+    }
+
+    AmountWidget(){
+      const thisCartProduct = this;
+
+      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
+      thisCartProduct.dom.amountWidget.addEventListener('updated', function(){
+        thisCartProduct.price *= thisCartProduct.priceSingle;
+        thisCartProduct.amountWidget = thisCartProduct.price;
+      });
+
+      
     }
   }
 
