@@ -413,6 +413,8 @@
       thisCartProduct.dom.price = element.querySelector(select.cartProduct.price);
       thisCartProduct.dom.edit = element.querySelector(select.cartProduct.edit);
       thisCartProduct.dom.remove = element.querySelector(select.cartProduct.remove);
+      thisCartProduct.dom.linkDecrease = element.querySelector(select.widgets.amount.linkDecrease);
+      thisCartProduct.dom.linkIncrease = element.querySelector(select.widgets.amount.linkIncrease);
     }
 
     AmountWidget(){
@@ -420,10 +422,13 @@
 
       thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
       thisCartProduct.dom.amountWidget.addEventListener('updated', function(){
-        thisCartProduct.price *= thisCartProduct.priceSingle;
+        thisCartProduct.dom.linkIncrease += thisCartProduct.priceSingle;
+        thisCartProduct.dom.linkDecrease -= thisCartProduct.priceSingle;
         thisCartProduct.amountWidget = thisCartProduct.price;
+        thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
       });
 
+ 
       
     }
   }
