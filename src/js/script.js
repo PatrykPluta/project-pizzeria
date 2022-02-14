@@ -422,14 +422,10 @@
 
       thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
       thisCartProduct.dom.amountWidget.addEventListener('updated', function(){
-        thisCartProduct.dom.linkIncrease += thisCartProduct.priceSingle;
-        thisCartProduct.dom.linkDecrease -= thisCartProduct.priceSingle;
-        thisCartProduct.amountWidget = thisCartProduct.price;
+        thisCartProduct.price = thisCartProduct.priceSingle * thisCartProduct.amountWidget.value;
         thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
       });
 
- 
-      
     }
   }
 
