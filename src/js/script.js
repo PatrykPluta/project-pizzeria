@@ -388,8 +388,19 @@
 
       thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
       //console.log('thisCart.products', thisCart.products)
-
+      thisCart.update();
     }
+
+    update() {
+      const thisCart = this;
+      deliveryFee = element.querySelector(settings.cart.defaultDeliveryFee);
+      totalNumber = 0;
+      subtotalPrice = 0;
+      for(thisCart.products of price){
+        totalNumber = 
+      }
+    }
+    
   }
 
   class CartProduct {
@@ -401,7 +412,7 @@
       thisCartProduct.price = menuProduct.price;
       thisCartProduct.amount = menuProduct.value;
       thisCartProduct.getElements(element);
-      console.log('thisCartProduct', thisCartProduct);
+      //console.log('thisCartProduct', thisCartProduct);
       thisCartProduct.AmountWidget();
     }
 
