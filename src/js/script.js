@@ -391,19 +391,24 @@
       thisCart.update();
     }
 
-    update() {
+    update(){
       const thisCart = this;
-      deliveryFee = element.querySelector(settings.cart.defaultDeliveryFee);
-      totalNumber = 0;
-      subtotalPrice = 0;
-      for(thisCart.products of price){
-        totalNumber = 
+      thisCart.dom.deliveryFee = element.querySelector(settings.cart.defaultDeliveryFee);
+      thisCart.dom.totalNumber = 0;
+      thisCart.dom.subtotalPrice = 0;
+
+      for(const prod of thisCart.products){
+        thisCart.dom.subtotalPrice = prod.price;
+        thisCart.dom.totalNumber = prod.amount;
+
       }
+      thisCart.dom.totalPrice = thisCart.dom.subtotalPrice + thisCart.dom.deliveryFee;
+      console.log('totalPrice', thisCart.dom.totalPrice);
     }
     
   }
 
-  class CartProduct {
+  class CartProduct{
     constructor(menuProduct, element){
       const thisCartProduct = this;
       thisCartProduct.id = menuProduct.id;
@@ -424,8 +429,6 @@
       thisCartProduct.dom.price = element.querySelector(select.cartProduct.price);
       thisCartProduct.dom.edit = element.querySelector(select.cartProduct.edit);
       thisCartProduct.dom.remove = element.querySelector(select.cartProduct.remove);
-      thisCartProduct.dom.linkDecrease = element.querySelector(select.widgets.amount.linkDecrease);
-      thisCartProduct.dom.linkIncrease = element.querySelector(select.widgets.amount.linkIncrease);
     }
 
     AmountWidget(){
