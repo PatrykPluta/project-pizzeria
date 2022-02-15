@@ -393,7 +393,7 @@
 
     update(){
       const thisCart = this;
-      thisCart.dom.deliveryFee = element.querySelector(settings.cart.defaultDeliveryFee);
+      const deliveryFee = settings.cart.defaultDeliveryFee;
       thisCart.dom.totalNumber = 0;
       thisCart.dom.subtotalPrice = 0;
 
@@ -402,7 +402,7 @@
         thisCart.dom.totalNumber = prod.amount;
 
       }
-      thisCart.dom.totalPrice = thisCart.dom.subtotalPrice + thisCart.dom.deliveryFee;
+      thisCart.dom.totalPrice = thisCart.dom.subtotalPrice + deliveryFee;
       console.log('totalPrice', thisCart.dom.totalPrice);
     }
     
