@@ -371,6 +371,9 @@
       thisCart.dom.subtotalPrice = element.querySelector(select.cart.subtotalPrice);
       thisCart.dom.totalPrice = element.querySelectorAll(select.cart.totalPrice);
       thisCart.dom.totalNumber = element.querySelector(select.cart.totalNumber);
+      thisCart.dom.form = element.querySelector(select.cart.form)
+      thisCart.dom.phone = element.querySelector(select.cart.phone)
+      thisCart.dom.address = element.querySelector(select.cart.address)
     }
 
     initActions(){
@@ -386,6 +389,11 @@
       thisCart.dom.productList.addEventListener('remove', function(event){
         thisCart.remove(event.detail.cartProduct);
       });
+
+      thisCart.dom.form.addEventListener('submit', function(event){
+        event.preventDefault();
+        thisCart.sendOrder();
+      })
     }
 
     add(menuProduct){
@@ -445,6 +453,23 @@
       thisCart.products.splice(index, 1);
 
       thisCart.update();
+    }
+
+    sendOrder(){
+      const thisCart = this;
+
+      const url = settings.db.url + '/' + settings.db.orders;
+
+      payload = {
+        address: address.value,
+        phone: phone.value,
+        totalPrice: thisCart.totalPrice,
+        subtotalPrice: thisCart.subtotalPrice,
+        totalNumber: thisCart.totalNumber,
+        deliveryFee: deliveryFee,
+        products: [],
+      };
+      console.log('payload', payload)
     }
   }
 
@@ -528,19 +553,20 @@
       const url = settings.db.url + '/' + settings.db.products;
 
       fetch(url)
-      .then(function(rawResponse){
-        return rawResponse.json();
-      })
-      .then(function(parsedResponse){
-        console.log('parsedResponse', parsedResponse);
+        .then(function(rawResponse){
+          return rawResponse.json();
+        })
+        .then(function(parsedResponse){
+          //console.log('parsedResponse', parsedResponse);
 
-        /* save parsedResponse as thisApp.data.products */
-        const parsedResponse = thisApp.data.products
-        /*execute initMenu method */
-        return thisApp.initMenu();
-      });
+          /* save parsedResponse as thisApp.data.products */
+          thisApp.data.products = parsedResponse;
+          /*execute initMenu method */
+          return thisApp.initMenu();
 
-      console.log('thisApp.data', JSON.stringify(thisApp.data));
+        });
+
+      //console.log('thisApp.data', JSON.stringify(thisApp.data));
 
       thisApp.data = {};
     },
