@@ -371,9 +371,9 @@
       thisCart.dom.subtotalPrice = element.querySelector(select.cart.subtotalPrice);
       thisCart.dom.totalPrice = element.querySelectorAll(select.cart.totalPrice);
       thisCart.dom.totalNumber = element.querySelector(select.cart.totalNumber);
-      thisCart.dom.form = element.querySelector(select.cart.form)
-      thisCart.dom.phone = element.querySelector(select.cart.phone)
-      thisCart.dom.address = element.querySelector(select.cart.address)
+      thisCart.dom.form = element.querySelector(select.cart.form);
+      thisCart.dom.phone = element.querySelector(select.cart.phone);
+      thisCart.dom.address = element.querySelector(select.cart.address);
     }
 
     initActions(){
@@ -393,7 +393,7 @@
       thisCart.dom.form.addEventListener('submit', function(event){
         event.preventDefault();
         thisCart.sendOrder();
-      })
+      });
     }
 
     add(menuProduct){
@@ -460,16 +460,35 @@
 
       const url = settings.db.url + '/' + settings.db.orders;
 
-      payload = {
-        address: address.value,
-        phone: phone.value,
+      const payload = {
+        address: thisCart.dom.address,
+        phone: thisCart.dom.phone,
         totalPrice: thisCart.totalPrice,
         subtotalPrice: thisCart.subtotalPrice,
         totalNumber: thisCart.totalNumber,
-        deliveryFee: deliveryFee,
+        deliveryFee: thisCart.deliveryFee,
         products: [],
       };
-      console.log('payload', payload)
+      console.log('payload', payload);
+
+      for(let prod of thisCart.products) {
+        payload.products.push(prod.getData());
+      }
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      };
+      
+      fetch(url, options)
+        .then(function(response){
+          return response.json();
+        }).then(function(parsedResponse){
+          console.log('parasedResponse', parsedResponse);
+        });
     }
   }
 
@@ -533,6 +552,17 @@
         thisCartProduct.remove();
       });
       //console.log('remove', thisCartProduct.remove)
+    }
+
+    getData (){
+      const thisCartProduct = this;
+
+      id: thisCartProduct.id;
+      amount: thisCartProduct.amount;
+      price: thisCartProduct.price;
+      priceSingle: thisCartProduct.priceSingle;
+      name: thisCartProduct.name;
+      params: thisCartProduct.params;
     }
   }
 
