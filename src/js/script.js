@@ -557,12 +557,14 @@
     getData (){
       const thisCartProduct = this;
 
-      id: thisCartProduct.id;
-      amount: thisCartProduct.amount;
-      price: thisCartProduct.price;
-      priceSingle: thisCartProduct.priceSingle;
-      name: thisCartProduct.name;
-      params: thisCartProduct.params;
+      const prod = {
+        id: thisCartProduct.id,
+        amount: thisCartProduct.amount,
+        price: thisCartProduct.price,
+        priceSingle: thisCartProduct.priceSingle,
+        name: thisCartProduct.name,
+        params: thisCartProduct.params,
+      };
     }
   }
 
