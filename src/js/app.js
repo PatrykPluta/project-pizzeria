@@ -8,12 +8,12 @@ const app = {
   initPages: function(){
     const thisApp = this;
 
-    thisApp.pages = document.querySelector(select.containerOf.pages) .children;
+    thisApp.pages = document.querySelector(select.containerOf.pages).children;
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
 
     const idFromHash = window.location.hash.replace('#/', '');
 
-    let pageMatchingHash = thisApp.pages[0];
+    let pageMatchingHash = thisApp.pages[0].id;
 
     for(let page of thisApp.pages){
       if(page.id == idFromHash){
@@ -21,7 +21,7 @@ const app = {
         break;
       }
     }
-
+  
     thisApp.activatePage(pageMatchingHash);
 
     for(let link of thisApp.navLinks){
@@ -102,6 +102,8 @@ const app = {
     thisApp.initData();
       
     thisApp.initCart();
+
+    thisApp.initBooking();
   },
 
   initCart: function(){
@@ -118,10 +120,11 @@ const app = {
   },
 
   initBooking: function(){
-
+    const thisApp = this;
+    
+    const bookingElem = document.querySelector(select.containerOf.booking);
+    thisApp.booking = new Booking(bookingElem);
   },
 };
 
 app.init();
-    
-
